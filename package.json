@@ -1,0 +1,37 @@
+{
+  "name": "juke",
+  "version": "1.0.0",
+  "description": "music player",
+  "author": "Cedric Stoquer",
+  "main": "main.js",
+  "scripts": {
+    "pack-win": "npm run clean && electron-packager . --overwrite --icon=icons/win/256x256.ico --out distrib",
+    "pack-mac": "npm run clean && electron-packager . --overwrite --icon=icons/mac/256x256.icns --out distrib",
+    "build": "electron-builder --dir"
+  },
+  "build": {
+    "appId": "cstoquer.juke",
+    "mac": {
+      "category": "cstoquer.juke.type"
+    },
+    "win": {
+      "target": "NSIS",
+      "icon": "icons/win/256x256.ico"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cstoquer/pixelbox.git"
+  },
+  "dependencies": {
+    "async": "2.5.0",
+    "fs-extra": "0.26.4",
+    "walk": "2.3.4"
+  },
+  "devDependencies": {
+    "electron": "1.6.10",
+    "electron-builder": "^20.28.4",
+    "electron-packager": "8.7.0"
+  },
+  "license": "MIT"
+}
