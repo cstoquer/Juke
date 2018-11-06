@@ -1,11 +1,49 @@
-var AudioPlayer = require('../core/AudioPlayer');
+function setdroppable(element, handlers) {
+  handlers = handlers || {};
+
+  element.addEventListener('dragover', function handleDragOver(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'copy';
+  }, false);
+
+  element.addEventListener('dragenter', function handleDrop(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    handlers.enter && handlers.enter(e);
+  }, false);
+
+  element.addEventListener('dragleave', function handleDrop(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    handlers.leave && handlers.leave(e);
+  }, false);
+
+  element.addEventListener('drop', function handleDrop(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    handlers.leave && handlers.leave(e);
+    handlers.drop && handlers.drop(e);
+  }, false);
+}
+
+exports.setdroppable = setdroppable;
+
+setdroppable(document); // disable default droppable behavior.
 
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+var AudioPlayer = require('../core/AudioPlayer');
+
+var musicPlayer = new AudioPlayer();
+
 function readMp3(file) {
   // TODO
-  console.log(file)
-  new AudioPlayer().loadFile(file.path).play();
+  // console.log(file)
+  musicPlayer
+    .stop()
+    .loadFile(file.path)
+    .play();
 }
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
@@ -22,28 +60,13 @@ function openFiles(e) {
 }
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-// drag & drop patch files
-document.body.addEventListener('dragover', function handleDragOver(e) {
-	e.stopPropagation();
-	e.preventDefault();
-	e.dataTransfer.dropEffect = 'copy';
-}, false);
-
-//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-document.body.addEventListener('drop', function (e) {
-	e.stopPropagation();
-	e.preventDefault();
-	openFiles(e);
-}, false);
-
-//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-document.addEventListener('drop', function (e) {
-	e.preventDefault();
-	e.stopPropagation();
-	openFiles(e);
+// TESTING
+var dom = require('../utils/dom');
+var dropper = dom.createDiv('dropper');
+setdroppable(dropper, {
+  enter: function () { dropper.style.backgroundColor = '#666' },
+  leave: function () { dropper.style.backgroundColor = ''},
+  drop: openFiles
 });
 
-document.addEventListener('dragover', function (e) {
-	e.preventDefault();
-	e.stopPropagation();
-});
+
