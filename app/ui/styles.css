@@ -1,5 +1,8 @@
 body {
-	background-color: black;
+  margin: 0;
+  background-color: black;
+  font-family: monospace;
+  color: #FFF;
 }
 
 @font-face {

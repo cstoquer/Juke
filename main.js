@@ -16,10 +16,10 @@ windows.main.devTool = true;
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 // This method will be called when Electron has finished initialization
 app.on('ready', function onReady() {
-  windows.main.open();
+	windows.main.open();
 
-  // 🎚 🎛 ▶️ ⏸ ⏯ ⏹ ⏺ ⏭ ⏮ 🔀 🔁 🔂 🔄 🔃 🎵 🎶 💽 🎹 💾 💿 📀🎧 🎼🥁 🎷 🎺 🎸 🎻
-  windows.main.browserWindow.setTouchBar(new TouchBar([
+	// 🎚 🎛 ▶️ ⏸ ⏯ ⏹ ⏺ ⏭ ⏮ 🔀 🔁 🔂 🔄 🔃 🎵 🎶 💽 🎹 💾 💿 📀🎧 🎼🥁 🎷 🎺 🎸 🎻
+	windows.main.browserWindow.setTouchBar(new TouchBar([
 		new TouchBarButton({ label: '▶ Play', backgroundColor: '#7851A9', click: () => this.sendMessage('play') }),
 		new TouchBarButton({ label: '⏮ Prev', backgroundColor: '#7851A9', click: () => this.sendMessage('previous') }),
 		new TouchBarButton({ label: '⏭ Next', backgroundColor: '#7851A9', click: () => this.sendMessage('previous') }),
@@ -30,6 +30,6 @@ app.on('ready', function onReady() {
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
-  app.quit();
+	app.quit();
 });
 
