@@ -1,15 +1,20 @@
-var audioContext = require('./audioContext');
+var audioContext    = require('./audioContext');
 var loadAudioBuffer = require('../loaders/loadAudioBuffer');
 
+var _loadUID = 0;
+function getLoadUID() {
+	return ++_loadUID;
+}
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 function AudioPlayer() {
-	this.buffer = null;
-	this.node = null;
-	this._playing = false;
-	this._paused = false;
+	this.buffer        = null;
+	this.node          = null;
+	this.onEnd         = null;
+	this._playing      = false;
+	this._paused       = false;
 	this._playbackRate = 1;
-	this.onEnd = null;
+	this._loadUID      = -1;
 }
 
 module.exports = AudioPlayer;
@@ -25,10 +30,17 @@ AudioPlayer.prototype.loadFile = function (url) {
 	}
 
 	this.buffer = null;
+
+	var loadUID = getLoadUID();
+	this._loadUID = loadUID;
+
 	var self = this;
+
 	loadAudioBuffer(url, function (error, buffer) {
 		if (error) return console.error(error);
+		if (self._loadUID !== loadUID) return; // loading was canceled
 		self.buffer = buffer;
+		// FIXME: cancel loading if sound is stopped
 		if (self._playing) self._createBufferSourceAndPlay();
 	});
 	return this;

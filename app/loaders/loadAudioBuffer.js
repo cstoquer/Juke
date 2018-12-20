@@ -16,4 +16,6 @@ module.exports = function (uri, cb) {
 
 	xobj.open('GET', uri, true);
 	xobj.send();
+
+	return xobj;
 };
